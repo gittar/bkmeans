@@ -1,31 +1,26 @@
 # The Breathing *K*-Means Algorithm
 
-## A novel approximation algorithm for the *k*-means problem
+An approximation algorithm for the *k*-means problem that (on average) is **better** (higher solution quality) and **faster** (lower CPU time usage) than  ***k*-means++**. 
 
-**Breathing *k*-means** finds solutions which
-* are usually better than solutions from ***k*-means++**
-* are lower-bounded by ***k*-means++** (the worst possible result *is* a solution from ***k*-means++**)
-* require more computation time than ***k*-means++** (ca 50%-300% depending on the problem)
+**Techreport:**
+https://arxiv.org/abs/2006.15666 (submitted for publication)
 
-The second claim is fulfilled, since 
-the default seeding method of **breathing *k*-means** *is* ***k*-means++**.  If no improvement is found by **breathing *k*-means**, it simply returns the ***k*-means++** result used as seed.
-
-The more interesting part about **breathing *k*-means** is probably its ability to improve upon ***k*-means++** in many cases and to do so at moderate  extra computational cost  (considering that the *k*-means problem is NP-hard).
-
-## Further Info
-For a detailed motivation and description of the **breathing *k*-means algorithm** see the preprint https://arxiv.org/abs/2006.15666. 
-
-An extended software repo including the data sets used in the above preprint and jupyter notebooks to experiment with them can be found at https://github.com/gittar/breathing-k-means
+**Repo (with examples):**
+https://github.com/gittar/breathing-k-means
 
 ## API
 The included class **BKMeans** is subclassed from [scikit-learn's **KMeans** class](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html)
-and has thus the same API, only extended by two parameters which, however, can be ignored for normal usage and thus simply left at their default values:
+and has, therefore, **the same API**. It can be used as a plug-in replacement for scikit-learn's **KMeans**. 
 
-* *m* (breathing depth), default: 5, (m=0 is equivalent to running k-means++)
-* *theta* (neighborhood freezing range), default: 1.1
+There is one new parameters which can be ignored (left at default) for normal usage:
+
+* *m* (breathing depth), default: 5
+
+The parameter *m* can also be used, however, to generate faster ( 1 < *m* < 5) or better (*m*>5) solutions. For details see the above techreport.
 
 
 ## Installation
+
 
 ```bash
 pip install bkmeans
@@ -68,15 +63,15 @@ k=100
 
 for i in range(5):
     # kmeans++
-    km = KMeans(n_clusters=k)
-    km.fit(X)
+    kmp = KMeans(n_clusters=k)
+    kmp.fit(X)
 
     # breathing k-means
     bkm = BKMeans(n_clusters=k)
     bkm.fit(X)
 
     # relative SSE improvement of bkm over km++
-    imp = 1 - bkm.inertia_/km.inertia_
+    imp = 1 - bkm.inertia_/kmp.inertia_
     print(f"SSE improvement over k-means++: {imp:.2%}")
 ```
 Output:
