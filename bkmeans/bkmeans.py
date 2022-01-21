@@ -53,8 +53,10 @@ class BKMeans(KMeans):
         self.n_clusters = len(C) # set k-value
         super().fit(X) # Lloyd's algorithm, sets self.inertia_ (a.k.a. phi)
 
-    def fit(self, X):
+    def fit(self, X, sample_weight=None):
         """ compute k-means clustering via breathing k-means (if m > 0) """
+        assert sample_weight is None, "sample_weight not supported"
+
         # run k-means++ (unless 'init' parameter specifies differently)
         super().fit(X) # requires self.n_clusters >= 1
         # handle trivial case k=1
