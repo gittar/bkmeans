@@ -13,6 +13,7 @@ from scipy.spatial.distance import cdist
 import math
 __version__="V1.2"
 class BKMeans(KMeans):
+    @staticmethod
     def get_version():
         return __version__
     def __init__(self, m=5, n_init=1, **kwargs):
