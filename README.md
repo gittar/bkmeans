@@ -2,30 +2,38 @@
 
 An approximation algorithm for the *k*-means problem that (on average) is **better** (higher solution quality) and **faster** (lower CPU time usage) than  ***k*-means++**. 
 
-**Techreport:**
-https://arxiv.org/abs/2006.15666 (submitted for publication)
+**Technical Report:**
+https://arxiv.org/abs/2006.15666 
 
-**Repo (with examples):**
+**Repo (with examples in Jupyter notebooks):**
 https://github.com/gittar/breathing-k-means
 
 ## API
 The included class **BKMeans** is subclassed from [scikit-learn's **KMeans** class](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html)
 and has, therefore, **the same API**. It can be used as a plug-in replacement for scikit-learn's **KMeans**. 
 
-There is one new parameters which can be ignored (left at default) for normal usage:
+There is one new parameter that can be ignored (left at default) for normal usage:
 
 * *m* (breathing depth), default: 5
 
-The parameter *m* can also be used, however, to generate faster ( 1 < *m* < 5) or better (*m*>5) solutions. For details see the above techreport.
+The parameter *m* can also be used, however, to generate faster ( 1 < *m* < 5) or better (*m*>5) solutions. For details see the above technical report.
 
 
-## Installation
+## Release Notes
+### Version 1.2
+* make use of the optional `sample_weight` parameter in `fit` method 
+* (contributed by Björn Wiescholek)
 
+### Version 1.1
+* speed improvement by setting `n_init=1` by default
+* close centroids now defined by nearest neighbor criterion
+* parameter `theta` abolished
 
-```bash
-pip install bkmeans
-```
-## Example 1: running on simple random data set
+### Version 1.0
+* (initial release)
+* "close centroids" were based on distance and a parameter *theta*
+
+## Example 1: running on a simple random data set
 Code:
 ```python
 import numpy as np
