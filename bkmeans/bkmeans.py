@@ -47,18 +47,17 @@ class BKMeans(KMeans):
         # aggregate utility for each centroid
         return np.array([np.sum(util[dist_srt[:, 0]==i]) for i in range(len(C))])
 
-    def _lloyd(self,C,X):
+    def _lloyd(self,C,X,sample_weight):
         """perform Lloyd's algorithm"""
         self.init = C # set cluster centers
         self.n_clusters = len(C) # set k-value
-        super().fit(X) # Lloyd's algorithm, sets self.inertia_ (a.k.a. phi)
+        super().fit(X=X, sample_weight=sample_weight) # Lloyd's algorithm, sets self.inertia_ (a.k.a. phi)
 
     def fit(self, X, sample_weight=None):
         """ compute k-means clustering via breathing k-means (if m > 0) """
-        assert sample_weight is None, "sample_weight not supported"
 
         # run k-means++ (unless 'init' parameter specifies differently)
-        super().fit(X) # requires self.n_clusters >= 1
+        super().fit(X=X, sample_weight=sample_weight) # requires self.n_clusters >= 1
         # handle trivial case k=1
         if self.n_clusters == 1:
             return self
@@ -72,9 +71,9 @@ class BKMeans(KMeans):
         self.n_init = 1
         while m > 0:
             # add m centroids ("breathe in") and run Lloyd's algorithm
-            self._lloyd(self._breathe_in(X, self.cluster_centers_, m),X)
+            self._lloyd(self._breathe_in(X, self.cluster_centers_, m),X,sample_weight)
             # delete m centroids ("breathe out") and run Lloyd's algorithm
-            self._lloyd(self._breathe_out(X, self.cluster_centers_, m),X)
+            self._lloyd(self._breathe_out(X, self.cluster_centers_, m),X,sample_weight)
             if self.inertia_ < E_best*(1-self.tol):
                 # improvement! update memorized best error and codebook so far
                 E_best = self.inertia_
