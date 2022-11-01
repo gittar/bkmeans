@@ -1,6 +1,7 @@
 # 
 # breathing k-means reference implementation 
 # (C) 2021 Bernd Fritzke
+#          ADDED sample_weight by Björn Wiescholek
 #
 # common parameters:
 # X: data set
