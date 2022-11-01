@@ -10,7 +10,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 from scipy.spatial.distance import cdist
 import math
-__version__="V1.1"
+__version__="V1.2"
 class BKMeans(KMeans):
     def get_version():
         return __version__
