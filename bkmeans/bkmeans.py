@@ -128,3 +128,4 @@ class BKMeans(KMeans):
                     break 
         # return reduced codebook
         return C[list(set(range(len(C)))-Dminus)]
+    
