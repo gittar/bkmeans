@@ -11,11 +11,14 @@ import numpy as np
 from sklearn.cluster import KMeans
 from scipy.spatial.distance import cdist
 import math
-__version__="V1.2"
+__version__="V1.3"
+
+rng = np.random.default_rng()
 class BKMeans(KMeans):
     @staticmethod
     def get_version():
         return __version__
+    
     def __init__(self, m=5, n_init=1, **kwargs):
         """ m: breathing depth
             n_init: number of times k-means++ is run initially
@@ -85,6 +88,7 @@ class BKMeans(KMeans):
         self.n_init, self.init = tmp # restore for compatibility with sklearn
         self.inertia_ = E_best
         self.cluster_centers_ = C_best
+        self.labels_ = self.predict(X)
         return self
 
     def _breathe_in(self, X, C, m):
@@ -96,8 +100,7 @@ class BKMeans(KMeans):
         eps = 0.01
         # root-mean-square error
         RMSE=math.sqrt(np.sum(E)/len(X))
-        # m new centroids created near max error centroids
-        Dplus = C[max_err]+eps*RMSE*(np.random.rand(m,C.shape[1])-0.5)
+        Dplus = C[max_err]+eps*RMSE*(rng.random((m,C.shape[1]))-0.5)
         # return enlarged codebook
         return np.concatenate([C, Dplus])
 
