@@ -1,6 +1,6 @@
 # 
 # breathing k-means reference implementation 
-# (C) 2021 Bernd Fritzke
+# (C) 2024 Bernd Fritzke
 #          ADDED sample_weight by Björn Wiescholek
 #
 # common parameters:
@@ -58,7 +58,7 @@ class BKMeans(KMeans):
         self.n_clusters = len(C) # set k-value
         super().fit(X=X, sample_weight=sample_weight) # Lloyd's algorithm, sets self.inertia_ (a.k.a. phi)
 
-    def fit(self, X, sample_weight=None):
+    def fit(self, X, y=None, sample_weight=None):
         """ compute k-means clustering via breathing k-means (if m > 0) """
 
         # run k-means++ (unless 'init' parameter specifies differently)
