@@ -23,6 +23,10 @@ class BKMeans(KMeans):
         """ m: breathing depth
             n_init: number of times k-means++ is run initially
             kwargs: arguments for scikit-learns KMeans """
+        global rng
+        if "random_state" in kwargs:
+            # initialize rng with random_state
+            rng = np.random.default_rng(kwargs["random_state"])
         super().__init__(n_init=n_init, **kwargs)
         self.m = min(m,self.n_clusters) # ensure m <= k
 
